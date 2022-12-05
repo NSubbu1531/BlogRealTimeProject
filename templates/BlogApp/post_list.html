@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+{%extends 'BlogApp/base.html'%}
+{%block title%}SRINIVAS BLOG{%endblock%}
+{%block content%}
+     <div>
+         <a href="/home/"> <img align=”left” src="/static/images/blog1.jpg" alt="blog1.jpg" id="img"  width="50px" height="50px"> <br/> <br/> </a>
+     </div>
+   <h1>{{ user.username|title}} Blog</h1>
+  <b> <p align="right" style="color: black">Welcome: {{ user.username }}</b>
+    <div class="dropdown" align="right">
+  <!--<img class="ml-3" src="static/images/login.jpg" alt="login.jpg" class="rounded float-right"> -->
+        <div class="text-center">
+        <img src="/static/images/login.jpg" alt="login.html" id="img" class="rounded mx-auto d-block" width="40" height="30">
+        <div class="dropdown-content">
+            <b><a href="/accounts/login/">Login</a>
+            <a href="/signup/">Signup</a>
+            <a href="/logout/">Logout</a></b> </div>
+        </div>
+  </div></p>
+<t/>
+    <div class="collapse" id="navbarToggleExternalContent">
+        <div class="bg-dark p-4">
+        <h5 class="text-green h4">Collapsed content</h5>
+        <span class="text-muted">Toggleable via the navbar brand.</span>
+        </div>
+    </div>
+<nav class="navbar navbar-dark bg-light">
+  <div class="container-fluid">
+   <!-- <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarToggleExternalContent" aria-controls="navbarToggleExternalContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span> -->
+           <a href="/home/"><button class="btn btn-outline-success me-2" type="button">Home</button></a>
+           <a href="/aboutus/"><button class="btn btn-warning me-2" type="button">About US</button></a>
+           <a href="/postlogin/"><button class="btn btn-secondary me-2" type="button">Add-Post</button></a>
+           <a href="/career/"><button class="btn btn-dark me-2" type="button">career</button></a>
+           <a href="/faq/"><button class="btn btn-secondary me-2" type="button">FAQ's</button></a>
+  </div>
+</nav>
+
+    <hr />
+    <p id="p1" color="red">Login by : {{ user.username }}</p>
+    <a href="/postlogin/"><button>Add-Post</button></a>
+    {% if tag %}
+        <h2>Posts tagged with "{{ tag.name }}"</h2>
+    {% endif %}
+    {%for post in post_list%}
+        <h2><a href="{{post.get_absolute_url}}">{{post.title}}
+        {%   with x=post.images.name|slice:"-3::" %}
+        {{ x }}
+
+           {% if x == "jpg"%}
+           <img id="div5" src="/media/{{ post.images }}" width="40px" height="40px">
+           {% elif x == "mp4" %}
+               <video autoplay="autoplay" controls="controls" width="40px" height="40px">
+						<source src="/media/{{ post.images }}" type="video/mp4"></source>
+               </video>
+           {% elif x == "pdf" %}
+               <p>Downloadable file</p>
+               <ol>
+                    <li>
+                        <a href="/media/{{ post.images }}">pdf file</a>
+                    </li>
+               </ol>
+           {% endif %}
+        </a></h2>
+           <a href="/{{ post.id }}/delete1/">Delete-Post</a>
+        <p>Tags:
+                {% for tag in post.tags.all %}
+                    <a href="{%url "post_list_by_tag_name" tag.slug %}">{{ tag.name }}</a>
+                    {% if not forloop.last %},{% endif %}
+                {% endfor %}
+        </p>
+        <p id='date'>Published on {{post.publish}} by {{post.author|title}}</p>
+        {{post.body| truncatewords:30|linebreaks}}
+        <br/>
+        {% endwith %}
+    {%endfor%}
+      {%include 'BlogApp/pagination.html' with page=post_list%}
+{%endblock%}

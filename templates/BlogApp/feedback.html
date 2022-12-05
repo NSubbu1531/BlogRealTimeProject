@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+{%load static%}
+<html lang="en" dir="ltr">
+    <head>
+        <meta charset="utf-8">
+        <link rel="stylesheet" href="{%static "css/blog.css"%}">
+        <title>Feedback</title>
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
+        <script src="{% static 'js/bootstrap.bundle.js' %}">
+        </script>
+    </head>
+    <body>
+    <div align='center' id="fb">
+            <h1 style="color: teal">Feedback Form</h1>
+            <hr />
+            {% if sentdata %}
+                <p>Thank you valuable feedback....!!!</p>
+                <p>Submit another one...</p>
+            {% endif %}
+            <form class="" action="" method="post">
+                {{form1.as_p}}
+                {%csrf_token%}
+            <a href="/base/"><button type="submit" class="btn btn-info">Submit-Feedback</button></a>
+            <a href="/"><button type="button" class="btn btn-warning">Back </button> </a>
+            <a href="logout/"> <button type="button" class="btn btn-secondary">May be Later</button> </a>
+
+
+
+            </form>
+        </div>
+    </body>
+</html>
